@@ -4,7 +4,7 @@ public class GiftScript : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Cake"))
+        if (other.CompareTag("Cake") && transform.position.y < other.transform.position.y)
         {
             other.gameObject.SetActive(false);
         }

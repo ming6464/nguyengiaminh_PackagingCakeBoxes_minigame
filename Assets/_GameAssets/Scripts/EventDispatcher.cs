@@ -174,7 +174,10 @@ public enum EventID
     None = 0,
 
     OnSwipe,
-    FinishSetupMap
+    FinishSetupMap,
+    OnOpenMenuLevelPanel,
+    OnOpenHomePanel,
+    OnPlayLevel
 }
 
 #endregion
