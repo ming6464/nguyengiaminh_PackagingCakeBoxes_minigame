@@ -3,16 +3,19 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Obstacle
+  - Cake
+  - Gift
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Cake
   - Water
   - UI
-  - 
-  - 
+  - Gift
+  - Obstacle
   - 
   - 
   - 
