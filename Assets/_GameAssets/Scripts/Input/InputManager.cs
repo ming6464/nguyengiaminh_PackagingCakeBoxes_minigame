@@ -43,6 +43,7 @@ public class InputManager : Singleton<InputManager>
 
     private void MoveInput(InputAction.CallbackContext ctx)
     {
+        if(!GameManager.Instance || GameManager.Instance.IsFinishGame || !GameManager.Instance.FinishStep) return;
         Vector2 move = ctx.ReadValue<Vector2>();
         if(move.y != 0 && move.x != 0) return;
         if (move.y != 0)

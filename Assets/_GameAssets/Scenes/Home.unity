@@ -8979,7 +8979,6 @@ MonoBehaviour:
   IsFinishGame: 0
   RemainingCakes: 0
   FinishStep: 0
-  IsFirstOpenApp: 1
 --- !u!114 &1539106816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8996,8 +8995,8 @@ MonoBehaviour:
   NameHomeScene: Home
   RoundTime:
     RoundTime: 45
-    TwoStarTimeThreshold: 25
-    OneStarTimeThreshold: 10
+    TwoStarTimeThreshold: 30
+    OneStarTimeThreshold: 15
   LevelCount: 9
   MoveSpeedObjectGrid: 15
 --- !u!114 &1539106817

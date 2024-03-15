@@ -23,12 +23,17 @@ public class ObjectOnGrid : MonoBehaviour
     private bool m_isMovement;
     private bool m_finishStep;
     private float m_speed = 15f;
-
+    private bool m_skipFrame;
     private void Awake()
     {
         if (_imageObject)
         {
             _imageObject.enabled = false;
+        }
+        
+        if (_collider2D)
+        {
+            _collider2D.enabled = false;
         }
     }
 
@@ -94,6 +99,11 @@ public class ObjectOnGrid : MonoBehaviour
         if (transform.position != m_nextPosition)
         {
             m_isMovement = true;
+            if (m_skipFrame)
+            {
+                m_skipFrame = false;
+                return;
+            }
             transform.position = Vector3.MoveTowards(transform.position, m_nextPosition, Time.deltaTime * m_speed);
         }
         else
@@ -116,11 +126,15 @@ public class ObjectOnGrid : MonoBehaviour
     {
         if (!IsDead && m_isMovement)
         {
-            CheckRay();
+            Transform objTf = CheckRay();
+            if (objTf != null)
+            {
+                LoadPositionCollider(objTf);
+            }
         }
     }
 
-    private void CheckRay()
+    private Transform CheckRay()
     {
         Vector3 directRay;
         switch (m_swipeKeyNew)
@@ -142,8 +156,10 @@ public class ObjectOnGrid : MonoBehaviour
         {
             Transform rayTf = raycastHit2D.transform;
             if(rayTf.GetInstanceID() == transform.GetInstanceID()) continue;
-            LoadPositionCollider(rayTf);
+            return rayTf;
         }
+
+        return null;
     }
 
     public void SetPosition(StepPosition stepPosition)
@@ -195,7 +211,7 @@ public class ObjectOnGrid : MonoBehaviour
     
     private void OnMove(object obj)
     {
-        if(IsDead || obj == null || MapScript.Instance == null) return;
+        if(!m_isFinishSetupMap || IsDead || obj == null || MapScript.Instance == null) return;
         MoveKey key = (MoveKey)obj;
         m_swipeKeyNew = key;
         GridInfo gridInfo = MapScript.Instance.GetNextGridInfo(GridPosition, m_swipeKeyNew);
@@ -205,9 +221,19 @@ public class ObjectOnGrid : MonoBehaviour
         }
 
         IsChecked = false;
-        GridPosition = gridInfo.PositionGrid;
-        m_nextPosition = gridInfo.ObjectTf.position;
         m_finishStep = false;
+        if (gridInfo.ObjectTf.position != transform.position)
+        {
+            Transform objTf = CheckRay();
+            if (objTf != null && objTf.CompareTag("Obstacle"))
+            {
+                return;
+            }
+            GridPosition = gridInfo.PositionGrid;
+            m_nextPosition = gridInfo.ObjectTf.position;
+            m_skipFrame = true;
+        }
+        
     }
 
     private void OnDrawGizmos()
