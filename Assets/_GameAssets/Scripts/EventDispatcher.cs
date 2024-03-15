@@ -177,7 +177,14 @@ public enum EventID
     FinishSetupMap,
     OnOpenMenuLevelPanel,
     OnOpenHomePanel,
-    OnPlayLevel
+    OnPlayLevel,
+    OnGoHomeScene,
+    OnResetLevel,
+    OnShowResult,
+    OnChangeTime,
+    OnNextLevel,
+    OnOpenQuestionPanel,
+    OnFinishLoadScene
 }
 
 #endregion

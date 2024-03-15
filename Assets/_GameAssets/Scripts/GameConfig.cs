@@ -1,8 +1,19 @@
-﻿
+﻿using System;
+
 public class GameConfig : Singleton<GameConfig>
 {
+    [Serializable]
+    public struct RoundTimeInfo
+    {
+        public int RoundTime;
+        public int OneStarTimeThreshold;
+        public int TwoStarTimeThreshold;
+    }
+    
     public string NameLevelScene;
-
+    public string NameHomeScene;
+    public RoundTimeInfo RoundTime;
+    
     private LevelData m_levelData;
 
     public override void Awake()

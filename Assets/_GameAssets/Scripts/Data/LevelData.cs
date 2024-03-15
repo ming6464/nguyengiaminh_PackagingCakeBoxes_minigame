@@ -4,7 +4,8 @@ using System.Collections.Generic;
 public class LevelData
 {
     public List<LevelInfo>  m_levelInfos;
-
+    public int LatestLevel = 0;
+    
     public LevelInfo GetLevelInfo(int level)
     {
         foreach (LevelInfo levelInfo in m_levelInfos)
@@ -16,7 +17,10 @@ public class LevelData
 
     public void UpdateLevel(LevelInfo levelInfo)
     {
-        if (m_levelInfos == null) m_levelInfos = new();
+        if (m_levelInfos == null)
+        {
+            m_levelInfos = new(); 
+        }
         int index = m_levelInfos.FindIndex(x => x.Level == levelInfo.Level);
         if (index < 0)
         {

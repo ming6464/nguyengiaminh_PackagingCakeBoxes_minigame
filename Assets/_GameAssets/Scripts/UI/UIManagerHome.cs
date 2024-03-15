@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class UIManagerHome : MonoBehaviour
 {
     [SerializeField]
     private GameObject _menuLevelPanel;
@@ -12,12 +11,26 @@ public class UIManager : MonoBehaviour
     {
         this.RegisterListener(EventID.OnOpenMenuLevelPanel,OnOpenMenuLevelPanel);
         this.RegisterListener(EventID.OnOpenHomePanel,OnOpenHomePanel);
+        this.RegisterListener(EventID.OnNextLevel,OnNextLevel);
+        this.RegisterListener(EventID.OnOpenQuestionPanel,OnOpenQuestionPanel);
     }
 
     private void OnDisable()
     {
         EventDispatcher.Instance.RemoveListener(EventID.OnOpenMenuLevelPanel,OnOpenMenuLevelPanel);
         EventDispatcher.Instance.RemoveListener(EventID.OnOpenHomePanel,OnOpenHomePanel);
+        EventDispatcher.Instance.RemoveListener(EventID.OnNextLevel,OnNextLevel);
+        EventDispatcher.Instance.RemoveListener(EventID.OnOpenQuestionPanel,OnOpenQuestionPanel);
+    }
+
+    private void OnOpenQuestionPanel(object obj)
+    {
+        Debug.Log("OnOpenQuestionPanel");
+    }
+
+    private void OnNextLevel(object obj)
+    {
+        Debug.Log("OnNextLevel");
     }
 
     private void Start()

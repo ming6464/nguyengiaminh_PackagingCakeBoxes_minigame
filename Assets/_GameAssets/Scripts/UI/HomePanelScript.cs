@@ -9,6 +9,6 @@ public class HomePanelScript : MonoBehaviour
 
     public void Question_button_on_click()
     {
-        
+        this.PostEvent(EventID.OnOpenQuestionPanel);
     }
 }
