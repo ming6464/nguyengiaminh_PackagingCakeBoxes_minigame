@@ -9,6 +9,9 @@ public class GameManager : Singleton<GameManager>
     public int RemainingCakes;
     public bool FinishStep;
     private float m_roundTimeDelta;
+
+    [HideInInspector]
+    public bool IsFirstOpenApp = true;
     
     private void OnEnable()
     {
