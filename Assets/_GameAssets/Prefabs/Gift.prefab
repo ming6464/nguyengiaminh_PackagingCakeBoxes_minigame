@@ -94,8 +94,10 @@ MonoBehaviour:
   StepDistance: 20
   GridPosition: {x: 0, y: 0}
   IsGift: 1
-  IsObstacle: 0
-  DistanceRayCheck: 1
+  DistanceRayCheck: 1.3
+  IndexStepObject: 0
+  IsDead: 0
+  _imageObject: {fileID: 8012138170017705938}
 --- !u!61 &5399668049156321675
 BoxCollider2D:
   m_ObjectHideFlags: 0

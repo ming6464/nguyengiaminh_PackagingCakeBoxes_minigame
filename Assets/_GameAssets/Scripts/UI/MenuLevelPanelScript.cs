@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class MenuLevelPanelScript : MonoBehaviour
+public class MenuLevelPanelScript : PopupAnimScript
 {
     [SerializeField]
     private LevelPanelScript[] _levelScripts;

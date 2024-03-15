@@ -58,6 +58,16 @@ public class LevelPanelScript : MonoBehaviour
     {
         if (levelInfo == null)
         {
+            m_isUnLock = true;
+            LoadStar(0);
+            if (_levelText)
+            {
+                _levelText.gameObject.SetActive(false);
+            }
+            if (_lockObj)
+            {
+                _lockObj.SetActive(true);
+            }
             return;
         }
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public static class DataSave
 {
@@ -8,13 +9,13 @@ public static class DataSave
         set => PlayerPrefs.SetInt("FirstOpen", value ? 1 : 0);
     }
 
-    public static LevelData LevelData
+    public static List<LevelInfo> LevelData
     {
         get
         {
             string text = PlayerPrefs.GetString("LevelData", null);
-            if (string.IsNullOrEmpty(text)) return new LevelData();
-            return JsonHelper.FromJson<LevelData>(text);
+            if (string.IsNullOrEmpty(text)) return null;
+            return JsonHelper.FromJsonList<LevelInfo>(text);
         }
         set
         {

@@ -179,12 +179,20 @@ public enum EventID
     OnOpenHomePanel,
     OnPlayLevel,
     OnGoHomeScene,
-    OnResetLevel,
-    OnShowResult,
+    OnResetStep,
     OnChangeTime,
-    OnNextLevel,
     OnOpenQuestionPanel,
-    OnFinishLoadScene
+    OnFinishLoadScene,
+    OnFinishGame,
+    OnReducedCake,
+    OnPlayNextLevel,
+    OnBackStep,
+    UpdateBackStepButton,
+    OnSetUpStep,
+    OnSaveStep,
+    OnObjectStepDead,
+    OnFinishStep,
+    OnUpdateCakeAlive
 }
 
 #endregion

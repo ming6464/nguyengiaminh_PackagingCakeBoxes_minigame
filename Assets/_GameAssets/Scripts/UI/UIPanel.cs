@@ -1,21 +1,34 @@
 using TMPro;
 using UnityEngine;
 
-public class UITopPanelScript : MonoBehaviour
+public class UIPanel : MonoBehaviour
 {
     [SerializeField]
     private TextMeshProUGUI _timeText;
-
+    
+    [SerializeField]
+    private GameObject _backStepButton;
+    
     private void OnEnable()
     {
         this.RegisterListener(EventID.OnChangeTime,OnChangeTime);
+        this.RegisterListener(EventID.UpdateBackStepButton,UpdateBackStepButton);
+
     }
 
     private void OnDisable()
     {
         EventDispatcher.Instance.RemoveListener(EventID.OnChangeTime,OnChangeTime);
+        EventDispatcher.Instance.RemoveListener(EventID.UpdateBackStepButton,UpdateBackStepButton);
+
     }
 
+    private void UpdateBackStepButton(object obj)
+    {
+        if(obj == null) return;
+        if(_backStepButton) _backStepButton.SetActive((bool)obj);
+    }
+    
     private void OnChangeTime(object obj)
     {
         if(obj == null || _timeText == null) return;
@@ -53,6 +66,11 @@ public class UITopPanelScript : MonoBehaviour
 
     public void Reset_button_on_click()
     {
-        this.PostEvent(EventID.OnResetLevel);
+        this.PostEvent(EventID.OnResetStep);
+    }
+
+    public void Back_step_button_on_click()
+    {
+        this.PostEvent(EventID.OnBackStep);
     }
 }

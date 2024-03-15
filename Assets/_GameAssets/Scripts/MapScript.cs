@@ -22,7 +22,7 @@ public class MapScript : Singleton<MapScript>
     
     private void Start()
     {
-        Invoke(nameof(DelayPostSetUpMap),.1f);
+        Invoke(nameof(DelayPostSetUpMap),.3f);
     }
 
     private void DelayPostSetUpMap()

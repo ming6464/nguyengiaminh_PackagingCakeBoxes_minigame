@@ -6,7 +6,10 @@ public class GiftScript : MonoBehaviour
     {
         if (other.CompareTag("Cake") && transform.position.y < other.transform.position.y)
         {
-            other.gameObject.SetActive(false);
+            if (other.transform.TryGetComponent(out ObjectOnGrid movementGrid))
+            {
+                movementGrid.OnDead();
+            }
         }
     }
 }

@@ -3,15 +3,16 @@ using UnityEngine;
 public class UIManagerHome : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _menuLevelPanel;
+    private PopupAnimScript _menuLevelPanel;
     [SerializeField]
-    private GameObject _homePanel;
+    private PopupAnimScript _homePanel;
+    [SerializeField]
+    private PopupAnimScript _questionPanel;
 
     private void OnEnable()
     {
         this.RegisterListener(EventID.OnOpenMenuLevelPanel,OnOpenMenuLevelPanel);
         this.RegisterListener(EventID.OnOpenHomePanel,OnOpenHomePanel);
-        this.RegisterListener(EventID.OnNextLevel,OnNextLevel);
         this.RegisterListener(EventID.OnOpenQuestionPanel,OnOpenQuestionPanel);
     }
 
@@ -19,20 +20,13 @@ public class UIManagerHome : MonoBehaviour
     {
         EventDispatcher.Instance.RemoveListener(EventID.OnOpenMenuLevelPanel,OnOpenMenuLevelPanel);
         EventDispatcher.Instance.RemoveListener(EventID.OnOpenHomePanel,OnOpenHomePanel);
-        EventDispatcher.Instance.RemoveListener(EventID.OnNextLevel,OnNextLevel);
         EventDispatcher.Instance.RemoveListener(EventID.OnOpenQuestionPanel,OnOpenQuestionPanel);
     }
 
     private void OnOpenQuestionPanel(object obj)
     {
-        Debug.Log("OnOpenQuestionPanel");
+        OpenPanel(_questionPanel);
     }
-
-    private void OnNextLevel(object obj)
-    {
-        Debug.Log("OnNextLevel");
-    }
-
     private void Start()
     {
         OnOpenHomePanel(null);
@@ -48,11 +42,12 @@ public class UIManagerHome : MonoBehaviour
         OpenPanel(_menuLevelPanel);
     }
 
-    private void OpenPanel(GameObject panel)
+    private void OpenPanel(PopupAnimScript popup)
     {
-        _menuLevelPanel.SetActive(false);
-        _homePanel.SetActive(false);
+        _menuLevelPanel.ClosePopup();
+        _homePanel.ClosePopup();
+        _questionPanel.ClosePopup();
         
-        panel.SetActive(true);
+        popup.OpenPopup();
     }
 }

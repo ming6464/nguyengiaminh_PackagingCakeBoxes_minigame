@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class UIResultPanelScript : MonoBehaviour
+public class UIResultPanelScript : PopupAnimScript
 {
     [SerializeField]
     private GameObject[] _startsOn;
@@ -10,6 +10,9 @@ public class UIResultPanelScript : MonoBehaviour
     
     [SerializeField]
     private GameObject _levelCompletedObj;
+
+    [SerializeField]
+    private GameObject _nextLevelButton;
     
     public void Home_button_on_click()
     {
@@ -18,12 +21,12 @@ public class UIResultPanelScript : MonoBehaviour
 
     public void Reset_button_on_click()
     {
-        this.PostEvent(EventID.OnResetLevel);
+        this.PostEvent(EventID.OnResetStep);
     }
     
     public void Next_button_on_click()
     {
-        this.PostEvent(EventID.OnNextLevel);
+        this.PostEvent(EventID.OnPlayNextLevel);
     }
 
     public void OnShowPanel(int startOnCount)
@@ -37,15 +40,21 @@ public class UIResultPanelScript : MonoBehaviour
         
         if (_levelCompletedObj)
         {
-            _levelCompletedObj.SetActive(startOnCount >= 1);
+            _levelCompletedObj.SetActive(startOnCount > 0);
         }
+
+        if (_nextLevelButton)
+        {
+            _nextLevelButton.SetActive(startOnCount > 0);
+        }
+        
     }
 
     private void LoadStar(int startOnCount)
     {
         for (int i = 0; i < _startsOn.Length; i++)
         {
-            _startsOn[i].SetActive(startOnCount > i);
+            _startsOn[i]?.SetActive(startOnCount > i);
         }
     }
 }

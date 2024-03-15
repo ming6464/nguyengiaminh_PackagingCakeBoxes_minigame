@@ -43,12 +43,14 @@ public class SwipeDetection : MonoBehaviour
 
     private void SwipeStart(Vector2 position, float time)
     {
+        if(!GameManager.Instance || GameManager.Instance.IsFinishGame || !GameManager.Instance.FinishStep) return;
         m_startPostion = position;
         m_startTime = time;
     }
     
     private void SwipeEnd(Vector2 position, float time)
     {
+        if(!GameManager.Instance || GameManager.Instance.IsFinishGame || !GameManager.Instance.FinishStep) return;
         m_endPostion = position;
         m_endTime = time;
         if(Vector2.Distance(m_endPostion,m_startPostion) < _minDistance ||  (m_endTime - m_startTime) > _maxTime) return;

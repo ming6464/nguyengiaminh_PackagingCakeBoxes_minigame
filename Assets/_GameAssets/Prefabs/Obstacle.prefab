@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 9095906955138084973}
   - component: {fileID: 7392617874383632102}
   - component: {fileID: 6769962220028493518}
-  - component: {fileID: 7747647001451921846}
   - component: {fileID: 7420810901785341101}
+  - component: {fileID: 2296662377820716200}
   m_Layer: 7
   m_Name: Obstacle
   m_TagString: Obstacle
@@ -27,7 +27,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1450499076388941200}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -77,23 +77,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7747647001451921846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1450499076388941200}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fd514d8341e41df877c21de14eeeb36, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StepDistance: 1
-  GridPosition: {x: 2, y: 0}
-  IsGift: 0
-  IsObstacle: 1
-  DistanceRayCheck: 0.5
 --- !u!61 &7420810901785341101
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -137,5 +120,18 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 270, y: 270}
+  m_Size: {x: 200, y: 200}
   m_EdgeRadius: 0
+--- !u!114 &2296662377820716200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1450499076388941200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8acc3ba4e184d559affefcdbb8687ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GridPosition: {x: 2, y: 0}

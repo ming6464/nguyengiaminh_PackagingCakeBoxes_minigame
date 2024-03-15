@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-
-public class HomePanelScript : MonoBehaviour
+﻿
+public class HomePanelScript : PopupAnimScript
 {
     public void Play_button_on_click()
     {

@@ -91,10 +91,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StepDistance: 20
-  GridPosition: {x: 1, y: 2}
+  GridPosition: {x: 2, y: 2}
   IsGift: 0
-  IsObstacle: 0
-  DistanceRayCheck: 1
+  DistanceRayCheck: 1.3
+  IndexStepObject: 0
+  IsDead: 0
+  _imageObject: {fileID: 8814992511740603786}
 --- !u!61 &1635620822791954841
 BoxCollider2D:
   m_ObjectHideFlags: 0

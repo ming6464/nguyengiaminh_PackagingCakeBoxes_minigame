@@ -19,6 +19,7 @@ public class LoadSceneManager : Singleton<LoadSceneManager>
     private bool m_endLoadNewScene;
     private bool m_isFinishLoad;
     private float m_velocitySlider;
+    private bool m_isLoading;
     
     public override void Awake()
     {
@@ -58,11 +59,12 @@ public class LoadSceneManager : Singleton<LoadSceneManager>
         m_endLoadNewScene = false;
         m_isFinishLoad = false;
         m_velocitySlider = 0f;
+        m_isLoading = true;
     }
 
     private void Update()
     {
-        if (_canvasGroup)
+        if (m_isLoading && _canvasGroup)
         {
             if (m_startLoadNewScene)
             {
@@ -78,8 +80,8 @@ public class LoadSceneManager : Singleton<LoadSceneManager>
                 _canvasGroup.alpha = Mathf.Lerp(_canvasGroup.alpha, 0, 10 * Time.deltaTime);
                 if (_canvasGroup.alpha < 0.1f)
                 {
-                    this.PostEvent(EventID.OnFinishLoadScene,m_nameSceneLoad);
                     m_endLoadNewScene = false;
+                    m_isLoading = false;
                     if (_uiPanel)
                     {
                         _uiPanel.SetActive(false);
@@ -93,11 +95,12 @@ public class LoadSceneManager : Singleton<LoadSceneManager>
                 }
                 else
                 {
-                    _slider.fillAmount = Mathf.SmoothDamp(_slider.fillAmount, 1f, ref m_velocitySlider,0.3f);
+                    _slider.fillAmount = Mathf.SmoothDamp(_slider.fillAmount, 1f, ref m_velocitySlider,0.4f);
                     if (_slider.fillAmount > 0.9f)
                     {
                         _slider.fillAmount = 1f;
                         m_endLoadNewScene = true;
+                        this.PostEvent(EventID.OnFinishLoadScene,m_nameSceneLoad);
                     }
                 }
                 
