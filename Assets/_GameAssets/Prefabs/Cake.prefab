@@ -90,7 +90,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fd514d8341e41df877c21de14eeeb36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StepDistance: 20
   GridPosition: {x: 1, y: 2}
   IsGift: 0
   DistanceRayCheck: 1.6
@@ -98,6 +97,7 @@ MonoBehaviour:
   IsDead: 0
   IsChecked: 0
   _imageObject: {fileID: 8814992511740603786}
+  _collider2D: {fileID: 1635620822791954841}
 --- !u!61 &1635620822791954841
 BoxCollider2D:
   m_ObjectHideFlags: 0

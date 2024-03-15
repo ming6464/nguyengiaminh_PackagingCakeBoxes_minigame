@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -10,9 +11,8 @@ public class GameManager : Singleton<GameManager>
     public bool FinishStep;
     private float m_roundTimeDelta;
 
-    [HideInInspector]
-    public bool IsFirstOpenApp = true;
-    
+
+    private bool m_isChangeStep;
     private void OnEnable()
     {
         IsFinishGame = true;
@@ -26,6 +26,7 @@ public class GameManager : Singleton<GameManager>
         this.RegisterListener(EventID.OnResetStep,OnResetStep);
         this.RegisterListener(EventID.OnUpdateCakeAlive,OnUpdateCakeAlive);
         this.RegisterListener(EventID.OnPlayNextLevel,OnPlayNextLevel);
+        this.RegisterListener(EventID.OnBackStep,OnChangeStep);
     }
 
     private void OnDisable()
@@ -40,6 +41,12 @@ public class GameManager : Singleton<GameManager>
         EventDispatcher.Instance.RemoveListener(EventID.OnMove,OnMove);
         EventDispatcher.Instance.RemoveListener(EventID.OnUpdateCakeAlive,OnUpdateCakeAlive);
         EventDispatcher.Instance.RemoveListener(EventID.OnResetStep,OnResetStep);
+        EventDispatcher.Instance.RemoveListener(EventID.OnBackStep,OnChangeStep);
+    }
+
+    private void OnChangeStep(object obj)
+    {
+        m_isChangeStep = true;
     }
 
     private void OnResetStep(object obj)
@@ -49,6 +56,7 @@ public class GameManager : Singleton<GameManager>
         RoundTime = GameConfig.Instance.RoundTime.RoundTime;
         m_roundTimeDelta = RoundTime;
         this.PostEvent(EventID.OnChangeTime,RoundTime);
+        OnChangeStep(null);
     }
 
     private void OnUpdateCakeAlive(object obj)
@@ -113,7 +121,7 @@ public class GameManager : Singleton<GameManager>
 
     private void OnFinishGame(object obj)
     {
-        if(obj == null) return;
+        if(obj == null || m_isChangeStep) return;
         IsFinishGame = true;
         if(GameConfig.Instance == null) return;
         LevelInfo levelInfo = new();
@@ -162,6 +170,12 @@ public class GameManager : Singleton<GameManager>
             }
         }
     }
+
+    private void LateUpdate()
+    {
+        m_isChangeStep = false;
+    }
+
     private void OnGoHomeScene(object obj)
     {
         if (LoadSceneManager.Instance)

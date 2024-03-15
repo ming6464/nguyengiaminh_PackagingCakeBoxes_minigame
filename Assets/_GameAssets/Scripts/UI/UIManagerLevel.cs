@@ -21,7 +21,7 @@ public class UIManagerLevel : MonoBehaviour
         EventDispatcher.Instance.RemoveListener(EventID.OnShowResult,OnShowResult);
         EventDispatcher.Instance.RemoveListener(EventID.OnResetStep,OnResetStep);
         EventDispatcher.Instance.RemoveListener(EventID.OnGoHomeScene,DelayDisableUi);
-        EventDispatcher.Instance.RemoveListener(EventID.OnPlayNextLevel,OnResetStep);
+        EventDispatcher.Instance.RemoveListener(EventID.OnPlayNextLevel,DelayDisableUi);
     }
 
     private void DelayDisableUi(object obj)

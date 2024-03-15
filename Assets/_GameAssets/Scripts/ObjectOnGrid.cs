@@ -14,6 +14,9 @@ public class ObjectOnGrid : MonoBehaviour
     [SerializeField]
     private Image _imageObject;
     
+    [SerializeField]
+    private Collider2D _collider2D;
+    
     private Vector3 m_nextPosition;
     private bool m_isFinishSetupMap;
     private MoveKey m_swipeKeyNew;
@@ -77,6 +80,12 @@ public class ObjectOnGrid : MonoBehaviour
         {
             _imageObject.enabled = true;
         }
+
+        if (_collider2D)
+        {
+            _collider2D.enabled = true;
+        }
+        
     }
 
     private void Update()
@@ -148,6 +157,11 @@ public class ObjectOnGrid : MonoBehaviour
         {
             _imageObject.enabled = true;
         }
+        
+        if (_collider2D)
+        {
+            _collider2D.enabled = true;
+        }
         IsDead = false;
     }
 
@@ -155,6 +169,11 @@ public class ObjectOnGrid : MonoBehaviour
     {
         if(IsDead) return;
         IsDead = true;
+        
+        if (_collider2D)
+        {
+            _collider2D.enabled = false;
+        }
         if (_imageObject)
         {
             _imageObject.enabled = false;

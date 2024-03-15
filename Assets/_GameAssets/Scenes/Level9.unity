@@ -3877,6 +3877,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _uiResultPanel: {fileID: 2113220138}
+  _UI: {fileID: 1730569055}
 --- !u!1001 &1763709763
 PrefabInstance:
   m_ObjectHideFlags: 0

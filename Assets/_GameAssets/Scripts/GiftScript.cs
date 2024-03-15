@@ -10,7 +10,7 @@ public class GiftScript : MonoBehaviour
         TryGetComponent(out m_objectGrid);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         if (other.CompareTag("Cake"))
         {

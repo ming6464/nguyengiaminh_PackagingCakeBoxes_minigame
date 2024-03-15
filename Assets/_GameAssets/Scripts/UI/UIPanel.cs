@@ -66,11 +66,13 @@ public class UIPanel : MonoBehaviour
 
     public void Reset_button_on_click()
     {
+        if(GameManager.Instance && GameManager.Instance.IsFinishGame) return;
         this.PostEvent(EventID.OnResetStep);
     }
 
     public void Back_step_button_on_click()
     {
+        if(GameManager.Instance && GameManager.Instance.IsFinishGame) return;
         this.PostEvent(EventID.OnBackStep);
     }
 }
