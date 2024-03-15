@@ -30,17 +30,17 @@ public class MapScript : Singleton<MapScript>
         this.PostEvent(EventID.FinishSetupMap);
     }
 
-    public GridInfo GetNextGridInfo(Vector2 positionGrid,SwipeKey key)
+    public GridInfo GetNextGridInfo(Vector2 positionGrid,MoveKey key)
     {
         switch (key)
         {
-            case SwipeKey.Up:
+            case MoveKey.Up:
                 positionGrid.y = _gridYMax;
                 break;
-            case SwipeKey.Down:
+            case MoveKey.Down:
                 positionGrid.y = _gridYMin;
                 break;
-            case SwipeKey.Right:
+            case MoveKey.Right:
                 positionGrid.x = _gridXMax;
                 break;
             default:

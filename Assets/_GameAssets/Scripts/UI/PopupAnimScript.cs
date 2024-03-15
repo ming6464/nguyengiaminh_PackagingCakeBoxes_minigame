@@ -118,6 +118,11 @@ public class PopupAnimScript : MonoBehaviour
             _backgroundCG.alpha = 0f;
         }
 
+        if (_objScaleTf && _scalePopupInfos.Length > 0)
+        {
+            _objScaleTf.localScale = Vector3.zero;
+        }
+
         m_indexScalePopup = -1;
 
         m_isOpenPopup = true;

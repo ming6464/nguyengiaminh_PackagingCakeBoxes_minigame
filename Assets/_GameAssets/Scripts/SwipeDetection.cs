@@ -18,6 +18,11 @@ public class SwipeDetection : MonoBehaviour
     private float m_startTime;
     private Vector2 m_endPostion;
     private float m_endTime;
+
+#if UNITY_EDITOR
+    private bool CheckFirstSwipe = true;
+#endif
+    
     private void Awake()
     {
         if (InputManager.Instance) m_inputManager = InputManager.Instance;
@@ -43,45 +48,53 @@ public class SwipeDetection : MonoBehaviour
 
     private void SwipeStart(Vector2 position, float time)
     {
-        if(!GameManager.Instance || GameManager.Instance.IsFinishGame || !GameManager.Instance.FinishStep) return;
         m_startPostion = position;
         m_startTime = time;
     }
     
     private void SwipeEnd(Vector2 position, float time)
     {
-        if(!GameManager.Instance || GameManager.Instance.IsFinishGame || !GameManager.Instance.FinishStep) return;
         m_endPostion = position;
         m_endTime = time;
         if(Vector2.Distance(m_endPostion,m_startPostion) < _minDistance ||  (m_endTime - m_startTime) > _maxTime) return;
-        CheckSwipeDirection(m_endPostion - m_startPostion);
+        SwipeDirection(m_endPostion - m_startPostion);
         m_endPostion = Vector2.zero;
         m_startPostion = Vector2.zero;
     }
 
-    private void CheckSwipeDirection(Vector2 dir)
+    private void SwipeDirection(Vector2 dir)
     {
+        if(!GameManager.Instance || GameManager.Instance.IsFinishGame || !GameManager.Instance.FinishStep) return;
+        
+#if UNITY_EDITOR
+        if (CheckFirstSwipe)
+        {
+            CheckFirstSwipe = false;
+            return;
+        }
+#endif
+        
         if (Vector2.Dot(Vector2.up, dir) >= _directionThreshold)
         {
-            this.PostEvent(EventID.OnSwipe,SwipeKey.Up);
+            this.PostEvent(EventID.OnMove,MoveKey.Up);
         }
         else if (Vector2.Dot(Vector2.down, dir) >= _directionThreshold)
         {
-            this.PostEvent(EventID.OnSwipe,SwipeKey.Down);
+            this.PostEvent(EventID.OnMove,MoveKey.Down);
         }
         else if (Vector2.Dot(Vector2.right, dir) >= _directionThreshold)
         {
-            this.PostEvent(EventID.OnSwipe,SwipeKey.Right);
+            this.PostEvent(EventID.OnMove,MoveKey.Right);
         }
         else if (Vector2.Dot(Vector2.left, dir) >= _directionThreshold)
         {
-            this.PostEvent(EventID.OnSwipe,SwipeKey.Left);
+            this.PostEvent(EventID.OnMove,MoveKey.Left);
         }
     }
 }
 
 [Serializable]
-public enum SwipeKey
+public enum MoveKey
 {
     Up,Down,Right,Left
 }

@@ -7,13 +7,13 @@ public class UIManagerLevel : MonoBehaviour
     
     private void OnEnable()
     {
-        this.RegisterListener(EventID.OnFinishGame,OnFinishGame);
+        this.RegisterListener(EventID.OnShowResult,OnShowResult);
         this.RegisterListener(EventID.OnResetStep,OnResetStep);
     }
 
     private void OnDisable()
     {
-        EventDispatcher.Instance.RemoveListener(EventID.OnFinishGame,OnFinishGame);
+        EventDispatcher.Instance.RemoveListener(EventID.OnShowResult,OnShowResult);
         EventDispatcher.Instance.RemoveListener(EventID.OnResetStep,OnResetStep);
     }
 
@@ -26,7 +26,7 @@ public class UIManagerLevel : MonoBehaviour
     }
 
 
-    private void OnFinishGame(object obj)
+    private void OnShowResult(object obj)
     {
         if(obj == null || _uiResultPanel == null) return;
         _uiResultPanel.OpenPopup();

@@ -1,14 +1,26 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class GiftScript : MonoBehaviour
 {
+    private ObjectOnGrid m_objectGrid;
+
+    private void Awake()
+    {
+        TryGetComponent(out m_objectGrid);
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Cake") && transform.position.y < other.transform.position.y)
+        if (other.CompareTag("Cake"))
         {
             if (other.transform.TryGetComponent(out ObjectOnGrid movementGrid))
             {
                 movementGrid.OnDead();
+                if (m_objectGrid)
+                {
+                    m_objectGrid.IsChecked = true;
+                }
             }
         }
     }

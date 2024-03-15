@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
@@ -18,8 +19,10 @@ public class GameManager : Singleton<GameManager>
         this.RegisterListener(EventID.OnFinishGame,OnFinishGame);
         this.RegisterListener(EventID.OnReducedCake,OnReducedCake);
         this.RegisterListener(EventID.OnFinishStep,OnFinishStep);
-        this.RegisterListener(EventID.OnSwipe,OnSwipe);
+        this.RegisterListener(EventID.OnMove,OnMove);
         this.RegisterListener(EventID.OnResetStep,OnResetStep);
+        this.RegisterListener(EventID.OnUpdateCakeAlive,OnUpdateCakeAlive);
+        this.RegisterListener(EventID.OnPlayNextLevel,OnPlayNextLevel);
     }
 
     private void OnDisable()
@@ -31,7 +34,7 @@ public class GameManager : Singleton<GameManager>
         EventDispatcher.Instance.RemoveListener(EventID.OnReducedCake,OnReducedCake);
         EventDispatcher.Instance.RemoveListener(EventID.OnPlayNextLevel,OnPlayNextLevel);
         EventDispatcher.Instance.RemoveListener(EventID.OnFinishStep,OnFinishStep);
-        EventDispatcher.Instance.RemoveListener(EventID.OnSwipe,OnSwipe);
+        EventDispatcher.Instance.RemoveListener(EventID.OnMove,OnMove);
         EventDispatcher.Instance.RemoveListener(EventID.OnUpdateCakeAlive,OnUpdateCakeAlive);
         EventDispatcher.Instance.RemoveListener(EventID.OnResetStep,OnResetStep);
     }
@@ -51,7 +54,7 @@ public class GameManager : Singleton<GameManager>
         RemainingCakes = (int)obj;
     }
 
-    private void OnSwipe(object obj)
+    private void OnMove(object obj)
     {
         if(obj == null) return;
         FinishStep = false;
@@ -116,6 +119,13 @@ public class GameManager : Singleton<GameManager>
         levelInfo.IsUnlock = true;
         GameConfig.Instance.UpdateLevelData(levelInfo);
         FinishStep = false;
+        StartCoroutine(DelayShowResult(levelInfo.StarUnlock,levelInfo.StarUnlock <= 0 ? 0 : .5f));
+    }
+
+    private IEnumerator DelayShowResult(int starCount,float TimeDelay)
+    {
+        yield return new WaitForSeconds(TimeDelay);
+        this.PostEvent(EventID.OnShowResult,starCount);
     }
 
     private void OnFinishLoadScene(object obj)

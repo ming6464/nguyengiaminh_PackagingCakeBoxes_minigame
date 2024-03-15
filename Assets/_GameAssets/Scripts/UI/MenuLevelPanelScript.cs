@@ -10,5 +10,13 @@ public class MenuLevelPanelScript : PopupAnimScript
     {
         this.PostEvent(EventID.OnOpenHomePanel);
     }
+
+    public void LoadData()
+    {
+        foreach (LevelPanelScript levelScript in _levelScripts)
+        {
+            levelScript.LoadData();
+        }
+    }
     
 }

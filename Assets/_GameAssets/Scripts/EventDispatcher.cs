@@ -173,7 +173,7 @@ public enum EventID
 {
     None = 0,
 
-    OnSwipe,
+    OnMove,
     FinishSetupMap,
     OnOpenMenuLevelPanel,
     OnOpenHomePanel,
@@ -192,7 +192,8 @@ public enum EventID
     OnSaveStep,
     OnObjectStepDead,
     OnFinishStep,
-    OnUpdateCakeAlive
+    OnUpdateCakeAlive,
+    OnShowResult
 }
 
 #endregion

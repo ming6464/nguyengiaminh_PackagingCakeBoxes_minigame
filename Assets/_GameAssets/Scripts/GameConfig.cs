@@ -15,6 +15,8 @@ public class GameConfig : Singleton<GameConfig>
     public string NameHomeScene;
     public RoundTimeInfo RoundTime;
     public int LevelCount;
+    public float MoveSpeedObjectGrid;
+    
     private List<LevelInfo> m_levelInfos;
 
     public override void Awake()

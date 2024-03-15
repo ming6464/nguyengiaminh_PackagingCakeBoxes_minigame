@@ -39,8 +39,9 @@ public class LevelPanelScript : MonoBehaviour
             m_button.onClick.RemoveAllListeners();
         }
     }
+    
 
-    private void Start()
+    public void LoadData()
     {
         if (GameConfig.Instance)
         {
@@ -58,7 +59,7 @@ public class LevelPanelScript : MonoBehaviour
     {
         if (levelInfo == null)
         {
-            m_isUnLock = true;
+            m_isUnLock = false;
             LoadStar(0);
             if (_levelText)
             {

@@ -30,6 +30,10 @@ public class UIManagerHome : MonoBehaviour
     private void Start()
     {
         OnOpenHomePanel(null);
+        if (_menuLevelPanel.TryGetComponent(out MenuLevelPanelScript menuLevelPanelScript))
+        {
+            menuLevelPanelScript.LoadData();
+        }
     }
 
     private void OnOpenHomePanel(object obj)

@@ -38,6 +38,36 @@ public class InputManager : Singleton<InputManager>
     {
         m_characterInput.Touch.PrimaryContact.started += ctx => StartTouchPrimary(ctx);
         m_characterInput.Touch.PrimaryContact.canceled += ctx => EndTouchPrimary(ctx);
+        m_characterInput.Input.Move.performed += ctx => MoveInput(ctx);
+    }
+
+    private void MoveInput(InputAction.CallbackContext ctx)
+    {
+        Vector2 move = ctx.ReadValue<Vector2>();
+        if(move.y != 0 && move.x != 0) return;
+        if (move.y != 0)
+        {
+            if (move.y > 0)
+            {
+                this.PostEvent(EventID.OnMove,MoveKey.Up);
+            }
+            else
+            {
+                this.PostEvent(EventID.OnMove,MoveKey.Down);
+            }
+            return;
+        }
+        if (move.x != 0)
+        {
+            if (move.x > 0)
+            {
+                this.PostEvent(EventID.OnMove,MoveKey.Right);
+            }
+            else
+            {
+                this.PostEvent(EventID.OnMove,MoveKey.Left);
+            }
+        }
     }
 
     private void EndTouchPrimary(InputAction.CallbackContext ctx)

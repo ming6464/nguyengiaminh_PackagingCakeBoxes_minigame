@@ -1,27 +1,25 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class ObjectOnGrid : MonoBehaviour
 {
-    public float StepDistance = 30f;
     public Vector2 GridPosition;
     public bool IsGift;
     public float DistanceRayCheck = 0.5f;
     public int IndexStepObject;
     public bool IsDead;
     public bool IsMoving => m_isMovement;
-    
+    public bool IsChecked;
     
     [SerializeField]
     private Image _imageObject;
     
     private Vector3 m_nextPosition;
     private bool m_isFinishSetupMap;
-    private SwipeKey m_swipeKeyNew;
+    private MoveKey m_swipeKeyNew;
     private bool m_isMovement;
     private bool m_finishStep;
-
+    private float m_speed = 15f;
 
     private void Awake()
     {
@@ -36,7 +34,7 @@ public class ObjectOnGrid : MonoBehaviour
     {
         if (EventDispatcher.Instance)
         {
-            this.RegisterListener(EventID.OnSwipe,OnSwipe);
+            this.RegisterListener(EventID.OnMove,OnMove);
             this.RegisterListener(EventID.FinishSetupMap,OnFinishSetupMap);
         }
         
@@ -46,11 +44,19 @@ public class ObjectOnGrid : MonoBehaviour
     {
         if (EventDispatcher.Instance)
         {
-            EventDispatcher.Instance.RemoveListener(EventID.OnSwipe,OnSwipe);
+            EventDispatcher.Instance.RemoveListener(EventID.OnMove,OnMove);
             EventDispatcher.Instance.RemoveListener(EventID.FinishSetupMap,OnFinishSetupMap);
         }
     }
-    
+
+    private void Start()
+    {
+        if (GameConfig.Instance)
+        {
+            m_speed = GameConfig.Instance.MoveSpeedObjectGrid;
+        }
+    }
+
     private void OnFinishSetupMap(object obj)
     {
         if(m_isFinishSetupMap) return;
@@ -79,7 +85,7 @@ public class ObjectOnGrid : MonoBehaviour
         if (transform.position != m_nextPosition)
         {
             m_isMovement = true;
-            transform.position = Vector3.MoveTowards(transform.position, m_nextPosition, Time.deltaTime * StepDistance);
+            transform.position = Vector3.MoveTowards(transform.position, m_nextPosition, Time.deltaTime * m_speed);
         }
         else
         {
@@ -101,29 +107,33 @@ public class ObjectOnGrid : MonoBehaviour
     {
         if (!IsDead && m_isMovement)
         {
-            Vector3 directRay;
-            switch (m_swipeKeyNew)
-            {
-                case SwipeKey.Up:
-                    directRay = transform.up;
-                    break;
-                case SwipeKey.Down:
-                    directRay = Quaternion.Euler(0,0,180) * transform.up;
-                    break;
-                case SwipeKey.Right:
-                    directRay = transform.right;
-                    break;
-                default:
-                    directRay = Quaternion.Euler(0,0,180) * transform.right;
-                    break;
-            }
-            foreach (RaycastHit2D raycastHit2D in Physics2D.RaycastAll(transform.position, directRay, DistanceRayCheck))
-            {
-                Transform rayTf = raycastHit2D.transform;
-                if(rayTf.GetInstanceID() == transform.GetInstanceID()) continue;
-                LoadPositionCollider(rayTf);
-            }
-            
+            CheckRay();
+        }
+    }
+
+    private void CheckRay()
+    {
+        Vector3 directRay;
+        switch (m_swipeKeyNew)
+        {
+            case MoveKey.Up:
+                directRay = transform.up;
+                break;
+            case MoveKey.Down:
+                directRay = Quaternion.Euler(0,0,180) * transform.up;
+                break;
+            case MoveKey.Right:
+                directRay = transform.right;
+                break;
+            default:
+                directRay = Quaternion.Euler(0,0,180) * transform.right;
+                break;
+        }
+        foreach (RaycastHit2D raycastHit2D in Physics2D.RaycastAll(transform.position, directRay, DistanceRayCheck))
+        {
+            Transform rayTf = raycastHit2D.transform;
+            if(rayTf.GetInstanceID() == transform.GetInstanceID()) continue;
+            LoadPositionCollider(rayTf);
         }
     }
 
@@ -157,25 +167,29 @@ public class ObjectOnGrid : MonoBehaviour
             gameObject.SetActive(false);
             this.PostEvent(EventID.OnObjectStepDead,IndexStepObject);
         }
+
+        if (VFXScript.Instance)
+        {
+            VFXScript.Instance.PlayVfx(transform.position);
+        }
     }
     
-    private void OnSwipe(object obj)
+    private void OnMove(object obj)
     {
         if(IsDead || obj == null || MapScript.Instance == null) return;
-        SwipeKey key = (SwipeKey)obj;
+        MoveKey key = (MoveKey)obj;
         m_swipeKeyNew = key;
         GridInfo gridInfo = MapScript.Instance.GetNextGridInfo(GridPosition, m_swipeKeyNew);
         if (gridInfo == null)
         {
             return;
         }
-        
+
+        IsChecked = false;
         GridPosition = gridInfo.PositionGrid;
         m_nextPosition = gridInfo.ObjectTf.position;
         m_finishStep = false;
     }
-
-    
 
     private void OnDrawGizmos()
     {
@@ -192,21 +206,28 @@ public class ObjectOnGrid : MonoBehaviour
         
         if (!other.CompareTag("Obstacle"))
         {
-            if (otherTf.TryGetComponent(out ObjectOnGrid objectOnGrid) && !objectOnGrid.IsMoving)
+            if (otherTf.TryGetComponent(out ObjectOnGrid objectOnGrid))
             {
-                if (m_swipeKeyNew is SwipeKey.Up or SwipeKey.Down)
+                if (objectOnGrid.IsMoving)
                 {
-                    if (IsGift)
+                    return;
+                }
+                
+                if (m_swipeKeyNew is MoveKey.Up)
+                {
+                    if (IsGift && !IsChecked)
                     {
-                        if(other.CompareTag("Cake") && transform.position.y < otherTf.position.y) return;
+                        return;
                     }
-                    else
+                    
+                }else if (m_swipeKeyNew is MoveKey.Down)
+                {
+                    if (other.CompareTag("Gift") && !objectOnGrid.IsChecked)
                     {
-                        if(other.CompareTag("Gift") && transform.position.y > otherTf.position.y) return;
+                        return;
                     }
                 }
             }
-            
         }
         
         GridInfo gridInfo = MapScript.Instance.GetGridInfoFromPosition(other.transform.position);
@@ -214,13 +235,13 @@ public class ObjectOnGrid : MonoBehaviour
         Vector2 positionGrid = gridInfo.PositionGrid;
         switch (m_swipeKeyNew)
         {
-            case SwipeKey.Up:
+            case MoveKey.Up:
                 positionGrid.y -= 1;
                 break;
-            case SwipeKey.Down:
+            case MoveKey.Down:
                 positionGrid.y += 1;
                 break;
-            case SwipeKey.Right:
+            case MoveKey.Right:
                 positionGrid.x -= 1;
                 break;
             default:

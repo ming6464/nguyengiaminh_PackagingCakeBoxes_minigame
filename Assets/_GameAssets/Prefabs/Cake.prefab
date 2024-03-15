@@ -37,7 +37,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 913, y: 702}
+  m_AnchoredPosition: {x: 234, y: 623}
   m_SizeDelta: {x: 250, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4917461787348475004
@@ -91,11 +91,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StepDistance: 20
-  GridPosition: {x: 2, y: 2}
+  GridPosition: {x: 1, y: 2}
   IsGift: 0
-  DistanceRayCheck: 1.3
+  DistanceRayCheck: 1.6
   IndexStepObject: 0
   IsDead: 0
+  IsChecked: 0
   _imageObject: {fileID: 8814992511740603786}
 --- !u!61 &1635620822791954841
 BoxCollider2D:
@@ -140,7 +141,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 200, y: 200}
+  m_Size: {x: 150, y: 150}
   m_EdgeRadius: 0
 --- !u!50 &4190735895348082042
 Rigidbody2D:
