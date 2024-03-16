@@ -26,7 +26,7 @@ public class GameManager : Singleton<GameManager>
         this.RegisterListener(EventID.OnResetStep,OnResetStep);
         this.RegisterListener(EventID.OnUpdateCakeAlive,OnUpdateCakeAlive);
         this.RegisterListener(EventID.OnPlayNextLevel,OnPlayNextLevel);
-        this.RegisterListener(EventID.OnBackStep,OnChangeStep);
+        this.RegisterListener(EventID.OnBackStep,OnBackStep);
     }
 
     private void OnDisable()
@@ -41,11 +41,13 @@ public class GameManager : Singleton<GameManager>
         EventDispatcher.Instance.RemoveListener(EventID.OnMove,OnMove);
         EventDispatcher.Instance.RemoveListener(EventID.OnUpdateCakeAlive,OnUpdateCakeAlive);
         EventDispatcher.Instance.RemoveListener(EventID.OnResetStep,OnResetStep);
-        EventDispatcher.Instance.RemoveListener(EventID.OnBackStep,OnChangeStep);
+        EventDispatcher.Instance.RemoveListener(EventID.OnBackStep,OnBackStep);
     }
-
-    private void OnChangeStep(object obj)
+    
+    private void OnBackStep(object obj)
     {
+        FinishStep = true;
+        IsFinishGame = false;
         m_isChangeStep = true;
     }
 
@@ -56,7 +58,7 @@ public class GameManager : Singleton<GameManager>
         RoundTime = GameConfig.Instance.RoundTime.RoundTime;
         m_roundTimeDelta = RoundTime;
         this.PostEvent(EventID.OnChangeTime,RoundTime);
-        OnChangeStep(null);
+        m_isChangeStep = true;
     }
 
     private void OnUpdateCakeAlive(object obj)
